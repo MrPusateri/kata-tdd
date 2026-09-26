@@ -1,0 +1,2 @@
+class LightDoesNotExist(Exception):
+    pass
