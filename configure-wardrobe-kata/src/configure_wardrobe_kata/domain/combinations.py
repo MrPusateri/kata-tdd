@@ -23,4 +23,4 @@ def combine(catalog: Set[WardrobeElement], wall_length: int) -> List | List[List
 
 def cheap_combinations(catalog: Set[WardrobeElement], wall_length: int) -> List | List[List[WardrobeElement]]:
     combinations = combine(catalog, wall_length)
-    return sorted(combinations, key= lambda combination: sum([we.price for we in combination]))
+    return sorted(combinations, key= lambda combination: (sum([we.price for we in combination]), len(combination)))

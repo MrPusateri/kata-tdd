@@ -2,6 +2,7 @@ from typing import Set
 
 from configure_wardrobe_kata.domain.wardrobe_element import WardrobeElement
 from configure_wardrobe_kata.domain.combinations import combine, cheap_combinations
+from configure_wardrobe_kata.domain.currencies import Currencies
 
 def test_single_combination_fills_a_50cm_wall_exactly(swedish_furniture_catalog: Set[WardrobeElement]):
     combinations = combine(catalog=swedish_furniture_catalog, wall_length=50)
@@ -28,4 +29,16 @@ def test_cheapest_combination_has_the_lowest_total_price(swedish_furniture_catal
     assert combinations[0] == [we for we in swedish_furniture_catalog if we.we_id == "LARGE-WE"]
 
 def test_cheapest_combination_among_ties_returns_one_valid_option():
-    pass
+    custom_catalog = set(
+        [
+            WardrobeElement("EXTRA-SMALL-WE", 40, 30, Currencies.USD),
+            WardrobeElement("SMALL-WE", 50, 59, Currencies.USD),
+            WardrobeElement("SMALL-MEDIUM-WE", 60, 60, Currencies.USD),
+            WardrobeElement("LARGE-WE", 100, 90, Currencies.USD)
+        ]
+    )
+
+    combinations = cheap_combinations(custom_catalog, 100)
+
+    assert len(combinations) == 3
+    assert combinations[0] == [we for we in custom_catalog if we.we_id == "LARGE-WE"]
